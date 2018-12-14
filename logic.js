@@ -6,23 +6,81 @@ var queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&
 d3.json(queryUrl, function(data) {
   // Once we get a response, send the data.features object to the createFeatures function
   createFeatures(data.features);
-  var 
+  // var incidents = data.features; 
+
+  // // For each incident of an earthquake
+  // for (var i = 0; i < incidents.length; i++){
+    
+  //   // Handles for quick reference
+  //   var quake = incidents[i];
+  //   var magn = quake.properties.mag;
+    
+  //   // Default color
+  //   var cLvl = '#b7f34d';
+
+  //   // Adjust color for magnitude of quake
+  //   if (magn > 5) {
+  //     cLvl = '#f06b6b';
+  //   } else if (magn > 4) {
+  //     cLvl = '#f0a76b';
+  //   } else if (magn > 3) {
+  //     cLvl = '#f3ba4d';
+  //   } else if (magn > 2) {
+  //     cLvl = '#f3db4d';
+  //   } else if (magn > 1) {
+  //     cLvl = '#e1f34d';
+  //   }
+
+  //   // Convert Quakes to 
+
+  // }
 });
 
 function createFeatures(earthquakeData) {
 
-  // Define a function we want to run once for each feature in the features array
   // Give each feature a popup describing the place and time of the earthquake
-  function onEachFeature(feature, layer) {
+  function quakePopUp(feature, layer) {
     layer.bindPopup("<h3>" + feature.properties.place +
       "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+  }
+
+  // Convert latlng to a Circle instead of marker
+  function quakeCircle(feature, latlng){
+    // Handles for quick reference
+    var magn = +feature.properties.mag;
+    
+    // Default color
+    var cLvl = '#b7f34d';
+
+    // Adjust color for magnitude of quake
+    if (magn > 5) {
+      cLvl = '#f06b6b';
+    } else if (magn > 4) {
+      cLvl = '#f0a76b';
+    } else if (magn > 3) {
+      cLvl = '#f3ba4d';
+    } else if (magn > 2) {
+      cLvl = '#f3db4d';
+    } else if (magn > 1) {
+      cLvl = '#e1f34d';
+    }
+
+    // Create circle
+    return L.circleMarker(latlng, {
+      radius: magn*5,
+      fillColor: cLvl,
+      fillOpacity: 0.75,
+      color: cLvl,
+      weight: 1,
+      opacity: 1
+    });
   }
 
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
   var earthquakes = L.geoJSON(earthquakeData, {
-    style:
-    onEachFeature: onEachFeature
+    pointToLayer: quakeCircle, 
+    onEachFeature: quakePopUp
   });
 
   // Sending our earthquakes layer to the createMap function
