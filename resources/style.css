@@ -1,0 +1,49 @@
+/* remove default margin and padding from body */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* set map, body, and html to 100% of the screen size */
+#map,
+body,
+html {
+  height: 100%;
+}
+
+.legend{
+  background-color: white;
+}
+.key{
+  text-align: center;
+}
+.low{
+  height: 5px;
+  width: 5px;
+  background-color: #b7f34d;
+}
+.llw{
+  height: 5px;
+  width: 5px;
+  background-color: #e1f34d;
+}
+.mll{
+  height: 5px;
+  width: 5px;
+  background-color: #f3db4d;
+}
+.mod{
+  height: 5px;
+  width: 5px;
+  background-color: #f3ba4d;
+}
+.hgh{
+  height: 5px;
+  width: 5px;
+  background-color: #f0a76b;
+}
+.svr{
+  height: 5px;
+  width: 5px;
+  background-color: #f06b6b;
+}
